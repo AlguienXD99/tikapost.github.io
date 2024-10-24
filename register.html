@@ -1,0 +1,42 @@
+<!-- frontend/register.html -->
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Registro - TiKaPost</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="container">
+    <h1>Registro en TiKaPost</h1>
+    <form id="registerForm">
+      <input type="text" id="username" placeholder="Nombre de usuario" required><br>
+      <input type="password" id="password" placeholder="Contraseña" required><br>
+      <button type="submit">Registrarse</button>
+    </form>
+    <p>¿Ya tienes cuenta? <a href="index.html">Inicia sesión aquí</a></p>
+  </div>
+
+  <script>
+    document.getElementById("registerForm").addEventListener("submit", async function(e) {
+      e.preventDefault();
+      const username = document.getElementById("username").value;
+      const password = document.getElementById("password").value;
+
+      const response = await fetch('http://localhost/backend/register.php', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+        body: `username=${username}&password=${password}`
+      });
+
+      const result = await response.json();
+      alert(result.message); // Muestra el mensaje al usuario
+      if (result.success) {
+        // Redirigir a la página de inicio de sesión o al perfil
+        window.location.href = 'index.html'; // Cambiar a la página de inicio de sesión
+      }
+    });
+  </script>
+</body>
+</html>
