@@ -1,0 +1,43 @@
+<!-- frontend/index.html -->
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>TiKaPost - Red Social</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="container">
+    <h1>Bienvenido a TiKaPost</h1>
+    <form id="loginForm">
+      <input type="text" id="username" placeholder="Nombre de usuario" required><br>
+      <input type="password" id="password" placeholder="Contraseña" required><br>
+      <button type="submit">Iniciar sesión</button>
+    </form>
+    <p>¿No tienes cuenta? <a href="register.html">Regístrate aquí</a></p>
+  </div>
+
+  <script>
+    document.getElementById("loginForm").addEventListener("submit", async function(e) {
+      e.preventDefault();
+      const username = document.getElementById("username").value;
+      const password = document.getElementById("password").value;
+
+      const response = await fetch('http://localhost/backend/login.php', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+        body: `username=${username}&password=${password}`
+      });
+
+      const result = await response.json();
+      if (result.success) {
+        alert('Bienvenido ' + username + ' a TiKaPost');
+        // Aquí puedes redirigir a la página principal o dashboard
+      } else {
+        alert('Error: ' + result.message);
+      }
+    });
+  </script>
+</body>
+</html>
